@@ -132,6 +132,7 @@ end_group
 
 start_group "find files from container"
 docker exec "$container_id" /github/action/scripts/find_packages >> $GITHUB_OUTPUT
+echo "deb_dir_path=$INPUT_ARTIFACTS_DIR" >> $GITHUB_OUTPUT
 end_group
 
 start_group "Stopping build container"

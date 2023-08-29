@@ -118,6 +118,13 @@ especially the `debian/` subdirectory.
 
 Defaults to the workspace.
 
+### Outputs
+#### `deb_dir_names`
+The compiled product supports multiple files.
+
+#### `deb_dir_path`
+Compiled product path.
+
 ### Environment Variables
 Environment variables work as you would expect. So you can use e.g. the
 `DEB_BUILD_OPTIONS` variable:

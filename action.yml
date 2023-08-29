@@ -41,8 +41,11 @@ inputs:
 
 outputs:
   deb_dir_names:
-    description: 'path to DEB file'
+    description: 'path of DEB files'
     value: ${{ steps.deb-build.outputs.deb_dir_names }}
+  deb_dir_path:
+    description: 'path of DEB file'
+    value: ${{ steps.deb-build.outputs.deb_dir_path }}
 
 runs:
   using: composite
