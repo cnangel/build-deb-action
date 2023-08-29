@@ -27,25 +27,29 @@ jobs:
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
-          buildpackage-opts: --build=binary --no-sign
+          buildpackage_opts: --build=binary --no-sign
+          is_output_all_files: false # only deb files
 ```
 
 ### Inputs
 All inputs have a default value or are optional.
 
-#### `apt-opts`
+#### `apt_opts`
 Extra options to be passed to `apt-get` when installing build dependencies and
 extra packages.
 
 Optional and empty by default.
 
-#### `artifacts-dir`
+#### `artifacts_dir`
 Directory relative to the workspace where the built packages and other
 artifacts will be moved to.
 
 Defaults to `debian/artifacts` in the workspace.
 
-#### `before-build-hook`
+#### `is_output_all_files`
+Whether to control outputting all files. If not, it will only output deb files.
+
+#### `before_build_hook`
 Shell command(s) to be executed after installing the build dependencies and right
 before `dpkg-buildpackage` is executed. A single or multiple commands can be
 given, same as for a
@@ -54,7 +58,7 @@ in a workflow.
 
 The hook is executed with `sh -c` as the root user *inside* the build container.
 The package contents from the build dependencies and
-[`extra-build-deps`](#extra-build-deps) are available.
+[`extra_build_deps`](#extra_build_deps) are available.
 
 Optional and empty by default.
 
@@ -62,39 +66,39 @@ Example use case:
 ```yaml
 - uses: jtdor/build-deb-action@v1
   with:
-    before-build-hook: debchange --controlmaint --local="+ci${{ github.run_id }}~git$(git rev-parse --short HEAD)" "CI build"
-    extra-build-deps: devscripts git
+    before_build_hook: debchange --controlmaint --local="+ci${{ github.run_id }}~git$(git rev-parse --short HEAD)" "CI build"
+    extra_build_deps: devscripts git
 ```
 
-#### `buildpackage-opts`
+#### `buildpackage_opts`
 Options to be passed to `dpkg-buildpackage`. See `man dpkg-buildpackage`.
 
 Optional and empty by default.
 
-#### `docker-image`
+#### `docker_image`
 Name of a (Debian-based) Docker image to build packages inside or path of a
 Dockerfile in GITHUB_WORKSPACE to build a container from.
 
 Defaults to `debian:stable-slim`.
 
-#### `extra-build-deps`
+#### `extra_build_deps`
 Extra packages to be installed as “build dependencies”. *This should rarely be
 used, build dependencies should be specified in the `debian/control` file.*
 
 By default, these packages are installed without their recommended
 dependencies. To change this, pass `--install-recommends` in
-[`apt-opts`](#apt-opts).
+[`apt_opts`](#apt_opts).
 
 Optional and empty by default.
 
-#### `extra-docker-args`
+#### `extra_docker_args`
 Additional command-line arguments passed to `docker run` when the build
 container is started. This might be needed if specific volumes or network
 settings are required.
 
 Optional and empty by default.
 
-#### `host-arch`
+#### `host_arch`
 The architecture packages are built for. If this parameter is set,
 cross-compilation is set up with `apt-get` and `dpkg-buildpackage` as described
 [in the Debian wiki](https://wiki.debian.org/CrossCompiling#Building_with_dpkg-buildpackage).
@@ -105,10 +109,10 @@ Basic example for cross-compilation:
 ```yaml
 - uses: jtdor/build-deb-action@v1
   with:
-    host-arch: i386
+    host_arch: i386
 ```
 
-#### `source-dir`
+#### `source_dir`
 Directory relative to the workspace that contains the package sources,
 especially the `debian/` subdirectory.
 

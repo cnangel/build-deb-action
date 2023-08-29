@@ -50,19 +50,19 @@ gitconfig_file=$build_dir/gitconfig
 
 INPUT_ARTIFACTS_DIR=${INPUT_ARTIFACTS_DIR:-.}
 if ! check_path_prefix "$INPUT_ARTIFACTS_DIR" "$GITHUB_WORKSPACE"; then
-	error "artifacts-dir is not in GITHUB_WORKSPACE"
+	error "artifacts_dir is not in GITHUB_WORKSPACE"
 	exit 2
 fi
 
 INPUT_SOURCE_DIR=${INPUT_SOURCE_DIR:-.}
 if ! check_path_prefix "$INPUT_SOURCE_DIR" "$GITHUB_WORKSPACE"; then
-	error "source-dir is not in GITHUB_WORKSPACE"
+	error "source_dir is not in GITHUB_WORKSPACE"
 	exit 2
 fi
 
 if [ -f "$INPUT_DOCKER_IMAGE" ]; then
 	if ! check_path_prefix "$INPUT_DOCKER_IMAGE" "$GITHUB_WORKSPACE"; then
-		error "docker-image is the path of a Dockerfile but it is not in GITHUB_WORKSPACE"
+		error "docker_image is the path of a Dockerfile but it is not in GITHUB_WORKSPACE"
 		exit 2
 	fi
 
@@ -128,6 +128,10 @@ end_group
 
 start_group "Moving artifacts"
 docker exec "$container_id" /github/action/scripts/move_artifacts
+end_group
+
+start_group "find files from container"
+docker exec "$container_id" /github/action/scripts/find_packages >> $GITHUB_OUTPUT
 end_group
 
 start_group "Stopping build container"

@@ -2,54 +2,68 @@ author: Jörn-Thorben Hinz
 name: Build Debian packages
 description: Build Debian packages with dpkg-buildpackage in a flexible environment.
 inputs:
-  apt-opts:
+  apt_opts:
     description: Options to be passed to apt-get
     required: false
-  artifacts-dir:
+  artifacts_dir:
     default: debian/artifacts
     description: Directory path relative to $GITHUB_WORKSPACE to place the built packages in
     required: true
-  before-build-hook:
+  is_output_all_files:
+    default: true
+    description: Whether to control outputting all files.
+      If not, it will only output deb files.
+    required: false
+  before_build_hook:
     description: Shell command(s) to execute after installing build dependencies
       and before executing dpkg-buildpackage
     required: false
-  buildpackage-opts:
+  buildpackage_opts:
     description: Options to be passed to dpkg-buildpackage
     required: false
-  docker-image:
+  docker_image:
     default: debian:stable-slim
     description: Name of a Docker image to build inside or path of a Dockerfile
     required: true
-  extra-build-deps:
+  extra_build_deps:
     description: Extra packages to be installed as build dependencies
     required: false
-  extra-docker-args:
+  extra_docker_args:
     description: Additional arguments to 'docker run' when starting the build container
     required: false
-  host-arch:
+  host_arch:
     description: Foreign architecture to setup cross-compilation for
     required: false
-  source-dir:
+  source_dir:
     default: ./
     description: Path relative to $GITHUB_WORKSPACE that contains the package sources
     required: true
+
+outputs:
+  deb_dir_names:
+    description: 'path to DEB file'
+    value: ${{ steps.deb-build.outputs.deb_dir_names }}
+
 runs:
   using: composite
   steps:
-    - env:
+    - id: deb-build
+      env:
         # Manually setting INPUT_* variables here until
         # https://github.com/actions/runner/issues/665 is resolved:
-        INPUT_APT_OPTS: ${{ inputs.apt-opts }}
-        INPUT_ARTIFACTS_DIR: ${{ inputs.artifacts-dir }}
-        INPUT_BEFORE_BUILD_HOOK: ${{ inputs.before-build-hook }}
-        INPUT_BUILDPACKAGE_OPTS: ${{ inputs.buildpackage-opts }}
-        INPUT_DOCKER_IMAGE: ${{ inputs.docker-image }}
-        INPUT_EXTRA_BUILD_DEPS: ${{ inputs.extra-build-deps }}
-        INPUT_EXTRA_DOCKER_ARGS: ${{ inputs.extra-docker-args }}
-        INPUT_HOST_ARCH: ${{ inputs.host-arch }}
-        INPUT_SOURCE_DIR: ${{ inputs.source-dir }}
+        INPUT_APT_OPTS: ${{ inputs.apt_opts }}
+        INPUT_ARTIFACTS_DIR: ${{ inputs.artifacts_dir }}
+        INPUT_BEFORE_BUILD_HOOK: ${{ inputs.before_build_hook }}
+        INPUT_BUILDPACKAGE_OPTS: ${{ inputs.buildpackage_opts }}
+        INPUT_DOCKER_IMAGE: ${{ inputs.docker_image }}
+        INPUT_EXTRA_BUILD_DEPS: ${{ inputs.extra_build_deps }}
+        INPUT_EXTRA_DOCKER_ARGS: ${{ inputs.extra_docker_args }}
+        INPUT_HOST_ARCH: ${{ inputs.host_arch }}
+        INPUT_SOURCE_DIR: ${{ inputs.source_dir }}
+        IS_OUTPUT_ALL_FILES: ${{ inputs.is_output_all_files }}
       run: ${{ github.action_path }}/scripts/run
       shell: bash
+
 branding:
   color: red
   icon: package
