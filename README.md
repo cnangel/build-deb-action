@@ -1,5 +1,5 @@
-[![Linting](https://github.com/jtdor/build-deb-action/actions/workflows/lint.yml/badge.svg)](https://github.com/jtdor/build-deb-action/actions/workflows/lint.yml)
-[![Testing](https://github.com/jtdor/build-deb-action/actions/workflows/test.yml/badge.svg)](https://github.com/jtdor/build-deb-action/actions/workflows/test.yml)
+[![Linting](https://github.com/cnangel/build-deb-action/actions/workflows/lint.yml/badge.svg)](https://github.com/cnangel/build-deb-action/actions/workflows/lint.yml)
+[![Testing](https://github.com/cnangel/build-deb-action/actions/workflows/test.yml/badge.svg)](https://github.com/cnangel/build-deb-action/actions/workflows/test.yml)
 
 # Build Debian Packages GitHub Action
 
