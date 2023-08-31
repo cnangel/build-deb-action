@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: cat test/Makefile_extra_build_deps >> test/Makefile
+      - run: cat test/Makefile_extra-build-deps >> test/Makefile
       - uses: ./
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
@@ -134,7 +134,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: cat test/Makefile_extra_docker_args >> test/Makefile
+      - run: cat test/Makefile_extra-docker-args >> test/Makefile
       - uses: ./
         env:
           DEB_BUILD_OPTIONS: noautodbgsym

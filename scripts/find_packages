@@ -2,8 +2,8 @@
 
 if [ "$IS_OUTPUT_ALL_FILES" == "true" ]
 then
-	echo deb_dir_names=$(find $INPUT_ARTIFACTS_DIR -type f | jo -a | jq -r 'join(",")')
+	echo "deb_dir_names=$(find "$INPUT_ARTIFACTS_DIR" -type f | jo -a | jq -r 'join(",")')"
 else
-	echo deb_dir_names=$(find $INPUT_ARTIFACTS_DIR -name "*.deb" | jo -a | jq -r 'join(",")')
+	echo "deb_dir_names=$(find "$INPUT_ARTIFACTS_DIR" -name "*.deb" | jo -a | jq -r 'join(",")')"
 fi
 
